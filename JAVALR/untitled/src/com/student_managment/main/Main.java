@@ -91,12 +91,15 @@ public class Main {
             System.out.print("Enter Group: ");
             String group = scanner.nextLine();
 
-            students.add(new Student(nextId.getAndIncrement(), lastName, firstName, patronymic, dob, address, phone, faculty, course, group));
+            students.add(new Student(nextId.getAndIncrement(), firstName, lastName, patronymic, dob, address, phone, faculty, course, group));
             System.out.println("Student has been added successfully!");
         } catch (DateTimeParseException e) {
             System.out.println("Invalid date format!");
         } catch (InputMismatchException e) {
             System.out.println("Invalid course type!");
+        } catch (IllegalArgumentException e) {
+            // Ловимо помилку невідповідності статі і виводимо її повідомлення
+            System.out.println("Error adding student: " + e.getMessage());
         }
     }
 

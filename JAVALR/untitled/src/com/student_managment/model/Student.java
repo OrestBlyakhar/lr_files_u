@@ -3,6 +3,12 @@ package com.student_managment.model;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+enum Gender {
+    MALE,
+    FEMALE,
+    UNKNOWN
+}
+
 public class Student {
     private long id;
     private String firstName;
@@ -15,9 +21,47 @@ public class Student {
     private int course;
     private String group;
 
+    // Приватний метод для визначення статі за по батькові
+    private static Gender determineGenderByPatronymic(String patronymic) {
+        if (patronymic.toLowerCase().endsWith("ович") || patronymic.toLowerCase().endsWith("йович")) {
+            return Gender.MALE;
+        }
+        if (patronymic.toLowerCase().endsWith("івна") || patronymic.toLowerCase().endsWith("ївна")) {
+            return Gender.FEMALE;
+        }
+        return Gender.UNKNOWN;
+    }
+
+    // Приватний метод для визначення статі за іменем (спрощена версія)
+    private static Gender determineGenderByName(String firstName) {
+        String lowerCaseName = firstName.toLowerCase();
+        // Жіночі імена часто закінчуються на 'а', 'я'
+        if (lowerCaseName.endsWith("а") || lowerCaseName.endsWith("я")) {
+            // Винятки для чоловічих імен (Микита, Ілля, Микола)
+            if (lowerCaseName.equals("микита") || lowerCaseName.equals("ілля") || lowerCaseName.equals("микола")) {
+                return Gender.MALE;
+            }
+            return Gender.FEMALE;
+        }
+        return Gender.MALE; // В інших випадках припускаємо, що ім'я чоловіче
+    }
 
     // Конструктор для створення об'єкта
     public Student(long id, String firstName, String lastName, String patronymic, LocalDate dateOfBirth, String address, String phone, String faculty, int course, String group) {
+        // --- БЛОК ВАЛІДАЦІЇ ---
+        Gender nameGender = determineGenderByName(firstName);
+        Gender patronymicGender = determineGenderByPatronymic(patronymic);
+
+        // Перевіряємо, тільки якщо обидві статі вдалося визначити
+        if (nameGender != Gender.UNKNOWN && patronymicGender != Gender.UNKNOWN && nameGender != patronymicGender) {
+            // Якщо стать імені та по батькові не збігаються, кидаємо виняток
+            throw new IllegalArgumentException(
+                    "Невідповідність статі: ім'я '" + firstName + "' (" + nameGender + ") " +
+                            "не відповідає по батькові '" + patronymic + "' (" + patronymicGender + ")."
+            );
+        }
+        // --- КІНЕЦЬ БЛОКУ ВАЛІДАЦІЇ ---
+
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
