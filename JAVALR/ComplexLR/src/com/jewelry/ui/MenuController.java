@@ -25,23 +25,26 @@ public class MenuController {
         // 1. Склад
         menuItems.put("1", new CreateStoneCommand());
         menuItems.put("2", new ViewInventoryCommand());
+        menuItems.put("3", new DeleteStoneCommand());
 
         // 2. Керування Намистами
-        menuItems.put("3", new CreateNecklaceCommand());
-        menuItems.put("4", new ViewNecklacesCommand());
-        menuItems.put("5", new SelectNecklaceCommand());
+        menuItems.put("4", new CreateNecklaceCommand());
+        menuItems.put("5", new ViewNecklacesCommand());
+        menuItems.put("6", new SelectNecklaceCommand());
+        // У конструкторі MenuController:
+        menuItems.put("7", new DeleteNecklaceCommand());
 
         // 3. Робота з активним намистом
-        menuItems.put("6", new AddStoneToNecklaceCommand());
-        menuItems.put("7", new RemoveStoneFromNecklaceCommand());
+        menuItems.put("8", new AddStoneToNecklaceCommand());
+        menuItems.put("9", new RemoveStoneFromNecklaceCommand());
 
         // 4. Аналітика
-        menuItems.put("8", new CalculateStatsCommand());
-        menuItems.put("9", new SortStonesCommand());
-        menuItems.put("10", new FindStonesCommand());
+        menuItems.put("10", new CalculateStatsCommand());
+        menuItems.put("11", new SortStonesCommand());
+        menuItems.put("12", new FindStonesCommand());
 
         // Системні
-        menuItems.put("11", new SaveLoadCommand());
+        menuItems.put("13", new SaveLoadCommand());
         menuItems.put("0", new ExitCommand());
     }
 
