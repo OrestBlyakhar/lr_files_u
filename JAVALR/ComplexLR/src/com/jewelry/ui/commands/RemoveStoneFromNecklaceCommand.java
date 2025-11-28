@@ -16,8 +16,8 @@ public class RemoveStoneFromNecklaceCommand implements Command {
             int idx = Integer.parseInt(ctx.getScanner().nextLine()) - 1;
             if (idx >= 0 && idx < ctx.getCurrentNecklace().getStones().size()) {
                 Stone removed = ctx.getCurrentNecklace().getStones().remove(idx);
-                // Опціонально: повертаємо на склад, якщо хочете
-                // ctx.getInventory().add(removed);
+                // Повертаємо на склад, якщо хочете
+                ctx.getInventory().add(removed);
                 System.out.println("Камінь прибрано з намиста.");
             } else System.out.println("Невірний номер.");
         } catch (Exception e) { System.out.println("Помилка."); }
