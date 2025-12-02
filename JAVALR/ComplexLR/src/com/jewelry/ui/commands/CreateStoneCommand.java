@@ -2,6 +2,8 @@ package com.jewelry.ui.commands;
 
 import com.jewelry.model.*;
 import com.jewelry.ui.MenuController;
+import com.jewelry.util.AppLogger;
+
 import java.util.Scanner;
 
 public class CreateStoneCommand implements Command {
@@ -39,9 +41,11 @@ public class CreateStoneCommand implements Command {
 
             ctx.getInventory().add(stone);
             System.out.println("✅ Камінь успішно додано на склад!");
+            AppLogger.info("Користувач додав новий камінь: " + name);
 
         } catch (Exception e) {
             System.out.println("❌ Помилка створення: " + e.getMessage());
+            AppLogger.warn("Невдала спроба створення каменя: " + e.getMessage());
         }
     }
 

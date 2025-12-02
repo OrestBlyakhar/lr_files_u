@@ -1,5 +1,7 @@
 package com.jewelry.repository;
 
+import com.jewelry.util.AppLogger;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +16,10 @@ public class FileRepository<T> {
     public void save(List<T> data) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
             oos.writeObject(data);
+            AppLogger.info("Дані збережено у " + filename);
             System.out.println("Дані збережено у " + filename);
         } catch (IOException e) {
-            System.out.println("Помилка збереження: " + e.getMessage());
+            AppLogger.warn("Не вдалося зберегти файл " + filename + ": " + e.getMessage());
         }
     }
 
@@ -28,7 +31,7 @@ public class FileRepository<T> {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             return (List<T>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Помилка завантаження: " + e.getMessage());
+            AppLogger.error("Критична помилка завантаження файлу " + filename, e);
             return new ArrayList<>();
         }
     }
